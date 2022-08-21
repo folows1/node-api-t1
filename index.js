@@ -19,7 +19,8 @@ app.post('/api/v1/classes', (req, res) => {
         res.status(400).send(`Erro. ${tag.msg}`);
     } else {
         const formattedData = formatData(data);
-        res.status(200).json(formattedData);
+        const finalReturn = start(formattedData);
+        res.status(200).json(finalReturn);
     }
 })
 
@@ -72,6 +73,42 @@ const formatData = (data) => {
         semestre: Number(data.semestre),
         dias_da_semana: Array.from(dias_da_semana)
     }
+}
+
+const start = (data) => {
+    const { ano, semestre, dias_da_semana } = data;
+    let firstDay;
+    let days;
+    if (semestre === 1) {
+        firstDay = moment(`${ano}${FIRST_SEMESTER_START}`);
+        days = getWorkDays(firstDay, 7, dias_da_semana);
+    } else {
+        firstDay = moment(`${ano}${SECOND_SEMESTER_START}`);
+        days = getWorkDays(firstDay, 12, dias_da_semana);
+    }
+    return days;
+}
+
+const getWorkDays = (date, mesFinal, dias_da_semana) => {
+    const days = [];
+    while (date.month() < mesFinal - 1) {
+        if (compareWeekDays(date.day(), dias_da_semana)) {
+            days.push(date.format('DD/MM/YYYY'));
+        }
+        date.add(1, 'days');
+    }
+    return days;
+}
+
+const compareWeekDays = (date, dias_da_sema) => {
+    let verify = false;
+    for (let dia of dias_da_sema) {
+        if (date === dia) {
+            verify = true;
+            break;
+        }
+    }
+    return verify;
 }
 
 
