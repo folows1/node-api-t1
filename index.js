@@ -3,10 +3,7 @@ const app = express();
 const moment = require('moment');
 
 const FIRST_SEMESTER_START = '0201';
-const FIRST_SEMESTER_END = '0630';
 const SECOND_SEMESTER_START = '0801';
-const SECOND_SEMESTER_END = '1130';
-
 
 app.use(express.json());
 
@@ -110,14 +107,5 @@ const compareWeekDays = (date, dias_da_sema) => {
     }
     return verify;
 }
-
-
-
-
-
-
-
-
-
 
 app.listen('3001', () => console.log('Server started on port 3001'));
