@@ -5,7 +5,7 @@ const moment = require('moment');
 const FIRST_SEMESTER_START = '0201';
 const FIRST_SEMESTER_END = '0630';
 const SECOND_SEMESTER_START = '0801';
-const SECOND_SEMESTER_END = '1230';
+const SECOND_SEMESTER_END = '1130';
 
 
 app.use(express.json());
@@ -14,42 +14,42 @@ app.use(express.json());
 app.post('/api/v1/classes', (req, res) => {
     const data = req.body;
     console.log(data);
-    const msg = checkData(data);
-    if (msg.error) {
-        res.status(404).send(msg);
+    const tag = checkData(data);
+    if (tag.error) {
+        res.status(400).send(`Erro. ${tag.msg}`);
     } else {
-
-        res.status(200).json(data);
+        const formattedData = formatData(data);
+        res.status(200).json(formattedData);
     }
 })
 
 const checkData = (data) => {
     const { ano, semestre, dias_da_semana } = data;
-    const msg = {
+    const tag = {
         error: false,
         msg: ''
     };
     if (!ano || !semestre || !dias_da_semana) {
-        msg.error = true;
-        msg.msg = 'Dados insuficientes';
-        return msg;
+        tag.error = true;
+        tag.msg = 'Dados insuficientes';
+        return tag;
     }
     if (Number(ano).toString().length !== 4) {
-        msg.error = true;
-        msg.msg = 'Ano inválido';
-        return msg;
+        tag.error = true;
+        tag.msg = 'Ano inválido';
+        return tag;
     }
     if (Number(semestre) !== 1 && Number(semestre) !== 2) {
-        msg.error = true;
-        msg.msg = 'Semestre inválido';
-        return msg;
+        tag.error = true;
+        tag.msg = 'Semestre inválido';
+        return tag;
     }
     if (dias_da_semana.length === 0 || dias_da_semana.length > 5 || checkDaysError(dias_da_semana)) {
-        msg.error = true;
-        msg.msg = 'Dias da semana inválidos';
-        return msg;
+        tag.error = true;
+        tag.msg = 'Dias da semana inválidos';
+        return tag;
     }
-    return msg;
+    return tag;
 }
 
 const checkDaysError = (dias_da_semana) => {
@@ -62,6 +62,16 @@ const checkDaysError = (dias_da_semana) => {
         }
     }
     return verify;
+}
+
+const formatData = (data) => {
+    const dias_da_semana = new Set(data.dias_da_semana);
+    console.log(dias_da_semana)
+    return {
+        ano: Number(data.ano),
+        semestre: Number(data.semestre),
+        dias_da_semana: Array.from(dias_da_semana)
+    }
 }
 
 
