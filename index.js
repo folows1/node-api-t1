@@ -97,9 +97,9 @@ const getWorkDays = (date, mesFinal, dias_da_semana) => {
     return days;
 }
 
-const compareWeekDays = (date, dias_da_sema) => {
+const compareWeekDays = (date, dias_da_semana) => {
     let verify = false;
-    for (let dia of dias_da_sema) {
+    for (let dia of dias_da_semana) {
         if (date === dia) {
             verify = true;
             break;
