@@ -37,7 +37,7 @@ const checkData = (data) => {
         tag.msg = 'Ano inválido';
         return tag;
     }
-    if (Number(semestre) !== 1 && Number(semestre) !== 2) {
+    if (Number(semestre) !== 1 && Number(semestre) !== 2 && semestre !== '1' && semestre !== '2') {
         tag.error = true;
         tag.msg = 'Semestre inválido';
         return tag;
@@ -90,7 +90,7 @@ const getWorkDays = (date, mesFinal, dias_da_semana) => {
     const days = [];
     while (date.month() < mesFinal - 1) {
         if (compareWeekDays(date.day(), dias_da_semana)) {
-            days.push(date.format('DD/MM/YYYY'));
+            days.push(date.format('DD/MM'));
         }
         date.add(1, 'days');
     }
