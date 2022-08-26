@@ -32,16 +32,31 @@ const checkData = (data) => {
         tag.msg = 'Dados insuficientes';
         return tag;
     }
-    if (Number(ano).toString().length !== 4) {
+
+    if (typeof semestre !== 'number' || typeof ano !== 'number') {
+        tag.error = true;
+        tag.msg = 'Apenas valores númericos são aceitos';
+        return tag;
+    }
+
+    if (ano.toString().length !== 4 || ano <= 0) {
         tag.error = true;
         tag.msg = 'Ano inválido';
         return tag;
     }
-    if (Number(semestre) !== 1 && Number(semestre) !== 2 && semestre !== '1' && semestre !== '2') {
+
+    if (semestre !== 1 && semestre !== 2) {
         tag.error = true;
         tag.msg = 'Semestre inválido';
         return tag;
     }
+
+    if (!Array.isArray(dias_da_semana)) {
+        tag.error = true;
+        tag.msg = 'Dias da semana deve ser um array de números';
+        return tag;
+    }
+
     if (dias_da_semana.length === 0 || dias_da_semana.length > 5 || checkDaysError(dias_da_semana)) {
         tag.error = true;
         tag.msg = 'Dias da semana inválidos';
@@ -99,11 +114,8 @@ const getWorkDays = (date, mesFinal, dias_da_semana) => {
 
 const compareWeekDays = (date, dias_da_semana) => {
     let verify = false;
-    for (let dia of dias_da_semana) {
-        if (date === dia) {
-            verify = true;
-            break;
-        }
+    if (dias_da_semana.includes(date)) {
+        verify = true;
     }
     return verify;
 }
