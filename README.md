@@ -20,6 +20,7 @@ docker run -p 3001:3001 node-api-t1
 http://localhost:3001/api/v1/classes
 ```
 ## JSON Type
+
 ```json
 {
   "ano": "string",
@@ -40,3 +41,7 @@ http://localhost:3001/api/v1/classes
   ]
 }
 ```
+
+
+### Aluno - Michel Ribeiro Corrêa
+### GitHub: [folows1](https://github.com/folows1)
