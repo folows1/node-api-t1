@@ -14,6 +14,13 @@ docker build -t node-api-t1 .
 docker run -p 3001:3001 node-api-t1
 ```
 
+## (OPCIONAl) Rodando o servidor pelo npm
+
+```bash
+npm i
+npm run start
+```
+
 ## Endpoint para realizar o POST
 
 ```bash
