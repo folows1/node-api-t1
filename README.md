@@ -24,7 +24,7 @@ http://localhost:3001/api/v1/classes
 {
   "ano": "string",
   "semestre": "number",
-  "dias_da_semana": [ "number", ... ]
+  "dias_da_semana": [ "number" ]
 }
 ```
 
