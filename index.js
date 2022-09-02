@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const moment = require('moment');
+const cors = require('cors');
+app.use(cors());
 
 const FIRST_SEMESTER_START = '0201';
 const SECOND_SEMESTER_START = '0801';
@@ -13,7 +15,7 @@ app.post('/api/v1/classes', (req, res) => {
     console.log(data);
     const tag = checkData(data);
     if (tag.error) {
-        res.status(400).send(`Erro. ${tag.msg}`);
+        res.status(400).send(tag);
     } else {
         const formattedData = formatData(data);
         const finalReturn = start(formattedData);
@@ -39,7 +41,7 @@ const checkData = (data) => {
         return tag;
     }
 
-    if (ano.toString().length !== 4 || ano <= 0) {
+    if (ano < 1000 || ano.toString().length !== 4) {
         tag.error = true;
         tag.msg = 'Ano inválido';
         return tag;
